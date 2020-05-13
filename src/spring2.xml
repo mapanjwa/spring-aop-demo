@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
+	xmlns:context="http://www.springframework.org/schema/context">
+
+	<aop:aspectj-autoproxy />
+
+	<bean name="triangle2" class="org.demo2.AOPXMLconfiguration.Triangle2">
+		<property name="name" value="Triangle Name"></property>
+	</bean>
+		
+	<bean name="circle2" class="org.demo2.AOPXMLconfiguration.Circle2">
+		<property name="name" value="Circle Name"></property>
+	</bean>	
+	
+	<bean name="shapeService2" class="org.demo2.AOPXMLconfiguration.ShapeService2" autowire="byName"/>
+	
+	<bean name="loggingAspect2" class="org.demo2.AOPXMLconfiguration.LoggingAspect2"/>	
+	
+	<aop:config>
+		<!-- equivalent to @aspect -->
+		<aop:aspect id="loggingAspect2" ref="loggingAspect2">
+		<!-- 
+			//@Pointcut("execution(* get*())")
+			//public void allGetters() {} 
+		-->
+			<aop:pointcut expression="execution(* get*())" id="allGetters"/>
+		<!-- equivalent
+		//@Around("allGetters()")
+		 -->	
+			<aop:around method="myAroundMethod" pointcut-ref="allGetters"/>
+		</aop:aspect>
+	</aop:config>
+</beans>
